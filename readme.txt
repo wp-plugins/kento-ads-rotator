@@ -29,7 +29,7 @@ Plugin Features
 * Display anywhere via shortcodes.
 * Get hover stats.
 * Get click Stats.
-* get serve stats.
+* Get serve stats.
 * City & Country where your Banners Served, Mouse Hovered, clicked.
 * Get Browser And Operating System Stats where your Banners Served, Mouse Hovered, clicked.
 * All Slandered Banner Size.
@@ -38,7 +38,7 @@ Plugin Features
 * Auto Banners Upload.
 * Banner Ads preview .
 * Stats For Total Click, Total Hover, Total Serve.
-* Brand Icon.
+* Custom Brand Icon.
 * Custom Brand icon Upload.
 
 
@@ -50,11 +50,12 @@ Plugin Features
 
 <strong>How to add banners</strong>
 
-* To create ads please click "Add New KADS" on left admin menu and set <br />
-Banner Type:<br />
-Banner Image Link: <br />
-Banner Size: <br />
-Banner Target Link: <br />
+To create ads please click "Add New KADS" on left admin menu and set <br />
+
+* Banner Type:<br />
+* Banner Image Link: <br />
+* Banner Size: <br />
+* Banner Target Link: <br />
 
 When done publish this banner you will see preview at bottom of banners link.
 
