@@ -17,7 +17,7 @@ Randomize ads banners display to anywhere easy and get banners stats serve, clic
 
 
 
-Live Preview: http://kentothemes.com/demo/kento-ads-rotator/
+Live demo and documentation: http://kentothemes.com/items/plugins/kento-banner-ads-rotator/
 
 
 
