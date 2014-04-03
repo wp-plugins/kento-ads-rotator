@@ -5,7 +5,7 @@ Tags:  unlimited ads rotator, ads rotator, Ad Rotate, Ad Rotator, banner ads rot
 
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ for group banners will randomize for each page refresh.
 
 
 == Changelog ==
+
+= 1.1 =
+* Add setting to target window on click.
 
 = 1.0 =
 * Initial release

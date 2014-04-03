@@ -332,8 +332,9 @@ function meta_boxes_kads_input( $post ) {
 	$kads_bn_img = get_post_meta( $post->ID, 'kads_bn_img', true );
 	$kads_bn_link = get_post_meta( $post->ID, 'kads_bn_link', true );	
 	$kads_bn_size = get_post_meta( $post->ID, 'kads_bn_size', true );
+	$kads_bn_target_window = get_post_meta( $post->ID, 'kads_bn_target_window', true );	
 	$kads_bn_type = get_post_meta( $post->ID, 'kads_bn_type', true );
-	$kads_bn_country = get_post_meta( $post->ID, 'kads_bn_country', true );	
+	$kads_bn_country = get_post_meta( $post->ID, 'kads_bn_country', true );
 
   
    ?>
@@ -457,7 +458,19 @@ function meta_boxes_kads_input( $post ) {
 			</optgroup>
 		 </select>
 		</td>
-	</tr> 
+	</tr>
+    
+<tr valign="top">
+			<th scope="row"><label for="kads-bn-target-window"><?php echo __('<strong>Target Window</strong>'); ?>: </label></th>
+			<td style="vertical-align:middle;">
+                <select name="kads_bn_target_window" class='kads-bn-target-window' id="kads-bn-target-window" >
+                        <option value='_blank' <?php if ($kads_bn_target_window=="_blank") echo "selected"; ?> >New Window</option>
+                        <option value='_self' <?php if ($kads_bn_target_window=="_self") echo "selected"; ?> >Same Window</option>
+                 </select>
+		</td>
+	</tr>
+    
+    
   	<tr valign="top">
 		<th scope="row"><label for="kads-bn-link"><?php echo __('<strong>Banner Target Link</strong>'); ?>: </label></th>
 		<td style="vertical-align:middle;">
@@ -501,6 +514,7 @@ function meta_boxes_kads_save( $post_id )
 		$kads_bn_img = $_POST['kads_bn_img'];
 		$kads_bn_link =  $_POST['kads_bn_link'];
 		$kads_bn_size = $_POST['kads_bn_size'];
+		$kads_bn_target_window = $_POST['kads_bn_target_window'];		
 	
 		if(!empty($_POST['kads_bn_type']))
 			{
@@ -522,6 +536,7 @@ function meta_boxes_kads_save( $post_id )
 		update_post_meta( $post_id, 'kads_bn_img', $kads_bn_img);
 		update_post_meta( $post_id, 'kads_bn_link', $kads_bn_link);	
 		update_post_meta( $post_id, 'kads_bn_size', $kads_bn_size);
+		update_post_meta( $post_id, 'kads_bn_target_window', $kads_bn_target_window);		
 		update_post_meta( $post_id, 'kads_bn_type', $kads_bn_type);	
 		update_post_meta( $post_id, 'kads_bn_country', $kads_bn_country);
 	}
@@ -586,7 +601,8 @@ function kads_display($atts,  $content = null ) {
 	$kads_bn_img = get_post_meta( $postid, 'kads_bn_img', true );
 	$kads_bn_link = get_post_meta( $postid, 'kads_bn_link', true );
 	$kads_bn_size = get_post_meta( $postid, 'kads_bn_size', true );
-	$kads_bn_type = get_post_meta( $postid, 'kads_bn_type', true );	
+	$kads_bn_target_window = get_post_meta( $postid, 'kads_bn_target_window', true );	
+	$kads_bn_type = get_post_meta( $postid, 'kads_bn_type', true );
 	$kads_logo_img_link = get_option( 'kads_logo_img_link' );
 
 
@@ -595,7 +611,7 @@ function kads_display($atts,  $content = null ) {
 
 	$kads_bn_wh = explode(",",$kads_bn_size);
 	$cont= "";
-	$cont.= "<div bannerid='".$postid."' target='".$kads_bn_link."'  style='width:".$kads_bn_wh[0]."px; height:".$kads_bn_wh[1]."px;'  class='kads-main' >";
+	$cont.= "<div bannerid='".$postid."' target='".$kads_bn_link."' target-window='".$kads_bn_target_window."'  style='width:".$kads_bn_wh[0]."px; height:".$kads_bn_wh[1]."px;'  class='kads-main' >";
 	
 	if($kads_bn_type=='img')
 		{

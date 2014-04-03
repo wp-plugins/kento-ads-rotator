@@ -28,8 +28,9 @@ jQuery(".kads-main").click(function()
 {	
 
 
-var bannerid = jQuery(this).attr("bannerid");
-var target = jQuery(this).attr("target");
+		var bannerid = jQuery(this).attr("bannerid");
+		var target = jQuery(this).attr("target");
+		var target_window = jQuery(this).attr("target-window");
 				
 					jQuery.ajax(
 						{
@@ -38,7 +39,16 @@ var target = jQuery(this).attr("target");
 					data: {"action": "kads_get_count", "bannerid":bannerid, },
 					success: function(data)
 							{	
-								window.location.href =target;
+								if(target_window=="_blank")
+									{
+										window.open(target)
+									}
+								else
+									{
+										window.location.href =target;
+									}								
+								
+								
 								
 							
 							}
