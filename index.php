@@ -3,13 +3,13 @@
 Plugin Name: Kento Ads Rotator
 Plugin URI: http://kentothemes.com
 Description: Kento Pricing Table is pure CSS3 and HTML pricing table packs. Easy to use just input data to table filed and used via shortcodes.
-Version: 1.0
+Version: 1.1
 Author: KentoThemes
 Author URI: http://kentothemes.com
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
-include( plugin_dir_path( __FILE__ ) . 'includes/Browser.php');
+require_once( plugin_dir_path( __FILE__ ) . 'includes/Browser.php');
 define('KENTO_ADS_PLUGIN_PATH', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/' );
 function kads_init_script()
 	{
@@ -108,11 +108,17 @@ function kads_get_count($bannerid_serve)
 	//----Get City And Country----- 
 	
 	// Get Browser name using Browser.php class
-	$browser = new Browser();
+	$browser = new Browser_KADS();
 	$platform = $browser->getPlatform();
 	$browser = $browser->getBrowser();
 
+
 	// ----Get Browser----- 
+
+
+
+$date = date('Y-m-d', strtotime('+'.get_option('gmt_offset').' hour'));
+$time = date('H:i', strtotime('+'.get_option('gmt_offset').' hour'));
 
 		if(isset($_POST['bannerid']))
 			{
@@ -120,7 +126,7 @@ function kads_get_count($bannerid_serve)
 				$wpdb->query( $wpdb->prepare("INSERT INTO $table 
 										( id, bannerid, event, date, time, city, country, browser, platform )
 								VALUES	( %d, %d, %s,%s, %s, %s, %s, %s, %s )",
-								array	( '', $bannerid,'click',date('Y-m-d'), date('H:i'), $geo_country, $geo_city, $browser, $platform)
+								array	( '', $bannerid,'click', $date, $time, $geo_country, $geo_city, $browser, $platform)
 										));
 			}
 		elseif(isset($_POST['bannerid_hover']))
@@ -129,7 +135,7 @@ function kads_get_count($bannerid_serve)
 				$wpdb->query( $wpdb->prepare("INSERT INTO $table 
 										( id, bannerid, event, date, time, city, country, browser, platform )
 								VALUES	( %d, %d, %s,%s, %s, %s, %s, %s, %s )",
-								array	( '', $bannerid,'hover',date('Y-m-d'), date('H:i'), $geo_country, $geo_city, $browser, $platform)
+								array	( '', $bannerid,'hover', $date, $time, $geo_country, $geo_city, $browser, $platform)
 										));
 			}
 		
@@ -140,7 +146,7 @@ function kads_get_count($bannerid_serve)
 				$wpdb->query( $wpdb->prepare("INSERT INTO $table 
 										( id, bannerid, event, date, time, city, country, browser, platform )
 								VALUES	( %d, %d, %s,%s, %s, %s, %s, %s, %s  )",
-								array	( '', $bannerid,'serve',date('Y-m-d'), date('H:i'), $geo_country, $geo_city, $browser, $platform)
+								array	( '', $bannerid,'serve', $date, $time, $geo_country, $geo_city, $browser, $platform)
 										));
 				
 			}	
@@ -162,7 +168,7 @@ add_action('wp_ajax_nopriv_kads_get_count', 'kads_get_count');
 function get_city_country()
 	{
 	
-	$ip = "180.234.202.136";
+	$ip = $_SERVER['REMOTE_ADDR'];
 	@$content = file_get_contents("http://www.geoplugin.net/xml.gp?ip=".$ip);
 	preg_match('/<geoplugin_city>(.*)/i', $content, $matches);
 	$city = !empty($matches[1]) ? $matches[1] : 0;
@@ -332,8 +338,9 @@ function meta_boxes_kads_input( $post ) {
 	$kads_bn_img = get_post_meta( $post->ID, 'kads_bn_img', true );
 	$kads_bn_link = get_post_meta( $post->ID, 'kads_bn_link', true );	
 	$kads_bn_size = get_post_meta( $post->ID, 'kads_bn_size', true );
+	$kads_bn_target_window = get_post_meta( $post->ID, 'kads_bn_target_window', true );	
 	$kads_bn_type = get_post_meta( $post->ID, 'kads_bn_type', true );
-	$kads_bn_country = get_post_meta( $post->ID, 'kads_bn_country', true );	
+	$kads_bn_country = get_post_meta( $post->ID, 'kads_bn_country', true );
 
   
    ?>
@@ -360,13 +367,13 @@ function meta_boxes_kads_input( $post ) {
 			<th scope="row"><?php echo __('<strong>Banner Type</strong>'); ?></th>
 			<td style="vertical-align:middle;">
             <label for="kads-bn-type-img"><input required="required" name="kads_bn_type" id="kads-bn-type-img" type="radio"   value="img" <?php if ($kads_bn_type=="img") echo "checked"; ?> /><?php echo __('Image Banner(.png, .jpg, .jpeg, .gif)'); ?></label><br />
-            <!-- 
-            <label for="kads-bn-type-swf"><input name="kads_bn_type" id="kads-bn-type-swf" type="radio" value="swf" <?php if ($kads_bn_type=="swf") echo "checked"; ?>  /><?php echo __('SWF Banner'); ?></label>--><br /><br />
+
+            <label for="kads-bn-type-swf"><input name="kads_bn_type" id="kads-bn-type-swf" type="radio" value="swf" <?php if ($kads_bn_type=="swf") echo "checked"; ?>  /><?php echo __('SWF Banner'); ?></label><br /><br />
             
             
-            <label for="kads-bn-img"><?php echo __('<strong>Banner Image Link</strong>'); ?>: </label><br />
+            <label for="kads-bn-img"><?php echo __('<strong>Banner Source Link</strong>'); ?>: </label><br />
             <input required="required" type="text" size='40' id="kads_bn_img" name="kads_bn_img" value="<?php if ( isset( $kads_bn_img ) ) echo $kads_bn_img; ?>" />
-            <input class="upload_image_button" type="button" value="Upload Image" /><br /><br />
+            <input class="upload_image_button button" type="button" value="Upload Image" /><br /><br />
             <?php 
 			if(!empty($kads_bn_img))
 				{
@@ -457,7 +464,19 @@ function meta_boxes_kads_input( $post ) {
 			</optgroup>
 		 </select>
 		</td>
-	</tr> 
+	</tr>
+    
+<tr valign="top">
+			<th scope="row"><label for="kads-bn-target-window"><?php echo __('<strong>Target Window</strong>'); ?>: </label></th>
+			<td style="vertical-align:middle;">
+                <select name="kads_bn_target_window" class='kads-bn-target-window' id="kads-bn-target-window" >
+                        <option value='_blank' <?php if ($kads_bn_target_window=="_blank") echo "selected"; ?> >New Window</option>
+                        <option value='_self' <?php if ($kads_bn_target_window=="_self") echo "selected"; ?> >Same Window</option>
+                 </select>
+		</td>
+	</tr>
+    
+    
   	<tr valign="top">
 		<th scope="row"><label for="kads-bn-link"><?php echo __('<strong>Banner Target Link</strong>'); ?>: </label></th>
 		<td style="vertical-align:middle;">
@@ -469,8 +488,189 @@ function meta_boxes_kads_input( $post ) {
 
   	<tr valign="top">
 
-		<td colspan="2" style="vertical-align:middle;"><?php echo __('<h2>Clcik Event</h2>'); ?>
-        <div id="kads-stats"><?php kads_stats(get_the_ID()); ?></div>
+		<td colspan="2" style="vertical-align:middle;">
+        <div id="kads-events">
+        <?php echo __('<h2>Event Stats</h2>'); ?>
+        <?php $postid = get_the_ID();
+
+		$kads_recent_items = isset( $_GET['kads_recent_items'] ) ? $_GET['kads_recent_items'] : 10;
+		$kads_event = isset( $_GET['kads_event'] ) ? $_GET['kads_event'] : "click";
+		 ?>
+        
+    <select name="kads_recent_items" class="kads-recent-items" >
+    	
+    	<option <?php if($kads_recent_items=="10") echo "selected='selected'" ?>  value="10" >10 Items</option>
+    	<option <?php if($kads_recent_items=="20") echo "selected='selected'" ?>  value="20" >20 Items</option>
+    	<option <?php if($kads_recent_items=="50") echo "selected='selected'" ?>  value="50" >50 Items</option>
+    	<option <?php if($kads_recent_items=="100") echo "selected='selected'" ?>  value="100" >100 Items</option>
+    	<option <?php if($kads_recent_items=="500") echo "selected='selected'" ?>  value="500" >500 Items</option>
+	</select>
+    
+    <select name="kads_event" class="kads-event" >
+    	<option <?php if($kads_event=="click") echo "selected='selected'" ?>  value="click" >Click</option>
+    	<option <?php if($kads_event=="serve") echo "selected='selected'" ?>  value="serve" >Serve</option>
+    	<option <?php if($kads_event=="hover") echo "selected='selected'" ?>  value="hover" >Hover</option>
+	</select>    
+    
+    <div class="button kads-update-sats" >Submit</div>
+	<script>
+    jQuery(document).ready(function() {
+        
+	
+	jQuery(".kads-update-sats").click(function(){
+
+			var kads_recent_items = jQuery(".kads-recent-items").val();
+			var kads_event = jQuery(".kads-event").val();
+
+			
+			location = "<?php echo get_admin_url(); ?>post.php?post=<?php echo $postid; ?>&action=edit&kads_recent_items="+kads_recent_items+"&kads_event="+kads_event+"#kads-events";
+			})
+			
+		})
+	
+	
+	
+	
+	
+    </script>
+    
+        
+<?php
+	global $wpdb;
+	$kads_event = isset( $_GET['kads_event'] ) ? $_GET['kads_event'] : "click";
+	$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
+	
+	$limit = isset( $_GET['kads_recent_items'] ) ? absint( $_GET['kads_recent_items'] ) : 10;
+	$offset = ( $pagenum - 1 ) * $limit;
+	$entries = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}kads_info WHERE event='$kads_event' AND bannerid=$postid ORDER BY id DESC LIMIT $offset, $limit" );
+ 
+
+ 
+?>  
+      
+<table class="widefat kads-events" id="" >
+    <thead>
+        <tr>
+            <th scope="col" class="manage-column column-name" style=""><strong>Event</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>Date & Time</strong></th>            
+            <th scope="col" class="manage-column column-name" style=""><strong>Country</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>City</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>Browser</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>Platform</strong></th> 
+        </tr>
+    </thead>
+ 
+    <tfoot>
+        <tr>
+            <th scope="col" class="manage-column column-name" style=""><strong>Event</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>Date & Time</strong></th> 
+            <th scope="col" class="manage-column column-name" style=""><strong>Country</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>City</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>Browser</strong></th>
+            <th scope="col" class="manage-column column-name" style=""><strong>Platform</strong></th> 
+        </tr>
+    </tfoot>
+        
+        
+        
+	<tbody>
+        <?php if( $entries ) { ?>
+ 
+            <?php
+            $count = 1;
+            $class = '';
+            foreach( $entries as $entry ) {
+                $class = ( $count % 2 == 0 ) ? ' class="alternate"' : '';
+            ?>
+ 
+            <tr<?php echo $class; ?>>
+                <td><?php echo	$entry->event; ?></td>
+                <td><?php echo	$entry->date." ".$entry->time;  ?></td>                
+                <td><?php echo	$entry->country; ?></td>   
+                <td><?php echo	$entry->city; ?></td>
+                <td><?php
+echo '<span class="browser '.$entry->browser.'" title="Browser: '.$entry->browser.'"> </span>';
+				 ?></td>
+                <td><?php echo	"<span class='platform ".$entry->platform."' title='Operating System:".$entry->platform."'></span>"; ?>
+                
+                
+                </td>                
+                            
+            </tr>
+ 
+            <?php
+                $count++;
+            }
+            ?>
+ 
+        <?php } else { ?>
+        <tr>
+            <td colspan="2">No Data</td>
+        </tr>
+        <?php } ?>
+	</tbody> 
+</table>  
+        
+<?php
+ 
+$total = $wpdb->get_var( "SELECT COUNT(`id`) FROM {$wpdb->prefix}kads_info  WHERE event='$kads_event' AND bannerid=$postid" );
+$num_of_pages = ceil( $total / $limit );
+$page_links = paginate_links( array(
+    'base' => add_query_arg( 'pagenum', '%#%#kads-events' ),
+    'format' => '',
+    'prev_text' => __( '&laquo;', 'aag' ),
+    'next_text' => __( '&raquo;', 'aag' ),
+    'total' => $num_of_pages,
+    'current' => $pagenum
+) );
+ 
+if ( $page_links ) {
+    echo '<div class="tablenav"><div class="tablenav-pages" style="margin: 1em 0">' . $page_links . '</div></div>';
+}
+ 
+
+
+		$result = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}kads_info WHERE event='click' AND bannerid=$postid", ARRAY_A);
+		$total_click = $wpdb->num_rows;
+		echo "<br /><br />Total Click: ".$total_click."<br />";
+		
+		$result = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}kads_info WHERE event='hover' AND bannerid=$postid", ARRAY_A);
+		$total_hover = $wpdb->num_rows;
+		echo "Total Hover: ".$total_hover."<br />";
+		
+		$result = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}kads_info WHERE event='serve' AND bannerid=$postid", ARRAY_A);
+		$total_serve = $wpdb->num_rows;
+		echo "Total Serve: ".$total_serve."<br />";	
+
+
+
+
+
+
+
+?>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        </div>
         </td>
 	</tr>
 
@@ -501,6 +701,7 @@ function meta_boxes_kads_save( $post_id )
 		$kads_bn_img = $_POST['kads_bn_img'];
 		$kads_bn_link =  $_POST['kads_bn_link'];
 		$kads_bn_size = $_POST['kads_bn_size'];
+		$kads_bn_target_window = $_POST['kads_bn_target_window'];		
 	
 		if(!empty($_POST['kads_bn_type']))
 			{
@@ -522,6 +723,7 @@ function meta_boxes_kads_save( $post_id )
 		update_post_meta( $post_id, 'kads_bn_img', $kads_bn_img);
 		update_post_meta( $post_id, 'kads_bn_link', $kads_bn_link);	
 		update_post_meta( $post_id, 'kads_bn_size', $kads_bn_size);
+		update_post_meta( $post_id, 'kads_bn_target_window', $kads_bn_target_window);		
 		update_post_meta( $post_id, 'kads_bn_type', $kads_bn_type);	
 		update_post_meta( $post_id, 'kads_bn_country', $kads_bn_country);
 	}
@@ -586,7 +788,8 @@ function kads_display($atts,  $content = null ) {
 	$kads_bn_img = get_post_meta( $postid, 'kads_bn_img', true );
 	$kads_bn_link = get_post_meta( $postid, 'kads_bn_link', true );
 	$kads_bn_size = get_post_meta( $postid, 'kads_bn_size', true );
-	$kads_bn_type = get_post_meta( $postid, 'kads_bn_type', true );	
+	$kads_bn_target_window = get_post_meta( $postid, 'kads_bn_target_window', true );	
+	$kads_bn_type = get_post_meta( $postid, 'kads_bn_type', true );
 	$kads_logo_img_link = get_option( 'kads_logo_img_link' );
 
 
@@ -595,7 +798,7 @@ function kads_display($atts,  $content = null ) {
 
 	$kads_bn_wh = explode(",",$kads_bn_size);
 	$cont= "";
-	$cont.= "<div bannerid='".$postid."' target='".$kads_bn_link."'  style='width:".$kads_bn_wh[0]."px; height:".$kads_bn_wh[1]."px;'  class='kads-main' >";
+	$cont.= "<div bannerid='".$postid."' target='".$kads_bn_link."' target-window='".$kads_bn_target_window."'  style='width:".$kads_bn_wh[0]."px; height:".$kads_bn_wh[1]."px;'  class='kads-main' id='kads-main' >";
 	
 	if($kads_bn_type=='img')
 		{
@@ -603,7 +806,10 @@ function kads_display($atts,  $content = null ) {
 		}
 	elseif($kads_bn_type=='swf')
 		{
-		$cont.=  "<object id='banner-swf' width='".$kads_bn_wh[0]."' height='".$kads_bn_wh[1]."' data='".$kads_bn_img."'></object>";
+		$cont.= "<object>";
+		$cont.=  "<embed allowscriptaccess='always' id='banner-swf' width='".$kads_bn_wh[0]."' height='".$kads_bn_wh[1]."' src='".$kads_bn_img."'>";
+		$cont.= "</object>";
+		
 		}
 	
 
@@ -672,6 +878,20 @@ add_filter('wp_head', 'kads_style');
 function kads_stats($postid)
 	{
 
+	global $wpdb;
+ 
+	$pagenum = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
+	$limit = isset( $_GET['kads_recent_items'] ) ? absint( $_GET['kads_recent_items'] ) : 10;
+
+
+
+
+
+
+
+
+
+
 		global $wpdb;
 		$table = $wpdb->prefix."kads_info";
 		$result = $wpdb->get_results("SELECT * FROM $table WHERE event='click' AND bannerid=$postid ", ARRAY_A);
@@ -679,7 +899,7 @@ function kads_stats($postid)
 
 		?>
     
-	<table class='pvc-top-post widefat'>
+	<table class='kads-events widefat' id="kads-events">
     <thead>
         <tr>
             <th scope="col" class="manage-column column-name" style=""><strong>Event</strong></th>
@@ -707,11 +927,11 @@ function kads_stats($postid)
 			echo "</td>";
 
 			echo "<td>";
-			echo $result[$i]['browser'];
+			echo '<span class="browser '.$result[$i]['browser'].'" title="Browser: '.$result[$i]['browser'].'"> </span>';
 			echo "</td>";
 
 			echo "<td>";
-			echo $result[$i]['platform'];
+			echo "<span class='platform ".$result[$i]['platform']."' title='Operating System:".$result[$i]['platform']."'></span>";
 			echo "</td>";
 
 			echo "</tr>";
@@ -779,20 +999,14 @@ function kads_settings(){
 	include('kads-admin.php');	
 }
 
+
 function kads_menu_init() {
+	
 	add_submenu_page('edit.php?post_type=kads', __('kads Info','menu-kads'), __('kads Info','menu-kads'), 'manage_options', 'kads_settings', 'kads_settings');
+	
+
+	
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 ?>
