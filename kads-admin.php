@@ -71,7 +71,7 @@
 		<td style="vertical-align:middle;">
 
 <input type="text" name="kads_logo_img_link" id="kads_logo_img_link" value ="<?php  if (isset($kads_logo_img_link) ) echo $kads_logo_img_link;  ?>"  >
-             <input class="upload_image_button" type="button" value="Upload Image" /><br />  <br /> 
+             <input class="upload_image_button button" type="button" value="Upload Image" /><br />  <br /> 
                 <?php 
 			if(!empty($kads_logo_img_link))
 				{
@@ -82,8 +82,14 @@
 		</td>
 	</tr>
 
-
-
+<tr valign="top">
+		<th scope="row">Need Help ?</th>
+		<td style="vertical-align:middle;">We will be happy to help you :) <br />
+        Please report any issue via our support forum <a href="http://kentothemes.com/questions-answers/">kentothemes.com &raquo; Q&A</a> or aks any question if you need. <br />
+        Checkout Our Latest Plugin <a href="http://kentothemes.com/">http://kentothemes.com</a>
+        
+		</td>
+	</tr>
 
 
 </table>

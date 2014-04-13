@@ -1,11 +1,11 @@
 === Kento Ads Rotator ===
 Contributors: hasanrang05
 Donate link: 
-Tags:  unlimited ads rotator, ads rotator, Ad Rotate, Ad Rotator, banner ads rotator, ads rotator wordpress
+Tags:  unlimited ads rotator, ads rotator, Ad Rotate, Ad Rotator, banner ads rotator, ads rotator wordpress, swf banner ads, flash banner Rotator
 
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,7 @@ Live demo and documentation: http://kentothemes.com/items/plugins/kento-banner-a
 Plugin Features
 
 * Unlimited Banner Rotate.
+* Image & SWF or Flash Banners.
 * Display anywhere via shortcodes.
 * Get hover stats.
 * Get click Stats.
@@ -40,6 +41,10 @@ Plugin Features
 * Stats For Total Click, Total Hover, Total Serve.
 * Custom Brand Icon.
 * Custom Brand icon Upload.
+
+Limitations:
+SWF Banners click trace working only Chrome broswer.
+
 
 
 == Installation ==
@@ -75,6 +80,16 @@ for group banners will randomize for each page refresh.
 
 
 == Changelog ==
+
+= 1.2 =
+* Add SWF banners.
+* Paginate event stats.
+* Browser and Platform icon.
+* Add date and time to stats.
+
+
+= 1.1 =
+* Add setting to target window on click.
 
 = 1.0 =
 * Initial release

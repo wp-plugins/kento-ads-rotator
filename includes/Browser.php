@@ -36,7 +36,7 @@
  *
  */
 
-class Browser
+class Browser_KADS
 {
     private $_agent = '';
     private $_browser_name = '';
@@ -54,10 +54,10 @@ class Browser
     const VERSION_UNKNOWN = 'unknown';
 
     const BROWSER_OPERA = 'Opera'; // http://www.opera.com/
-    const BROWSER_OPERA_MINI = 'Opera Mini'; // http://www.opera.com/mini/
+    const BROWSER_OPERA_MINI = 'Opera-Mini'; // http://www.opera.com/mini/
     const BROWSER_WEBTV = 'WebTV'; // http://www.webtv.net/pc/
-    const BROWSER_IE = 'Internet Explorer'; // http://www.microsoft.com/ie/
-    const BROWSER_POCKET_IE = 'Pocket Internet Explorer'; // http://en.wikipedia.org/wiki/Internet_Explorer_Mobile
+    const BROWSER_IE = 'Internet-Explorer'; // http://www.microsoft.com/ie/
+    const BROWSER_POCKET_IE = 'Pocket-Internet-Explorer'; // http://en.wikipedia.org/wiki/Internet_Explorer_Mobile
     const BROWSER_KONQUEROR = 'Konqueror'; // http://www.konqueror.org/
     const BROWSER_ICAB = 'iCab'; // http://www.icab.de/
     const BROWSER_OMNIWEB = 'OmniWeb'; // http://www.omnigroup.com/applications/omniweb/
@@ -75,17 +75,17 @@ class Browser
     const BROWSER_CHROME = 'Chrome'; // http://www.google.com/chrome
     const BROWSER_ANDROID = 'Android'; // http://www.android.com/
     const BROWSER_GOOGLEBOT = 'GoogleBot'; // http://en.wikipedia.org/wiki/Googlebot
-    const BROWSER_SLURP = 'Yahoo! Slurp'; // http://en.wikipedia.org/wiki/Yahoo!_Slurp
-    const BROWSER_W3CVALIDATOR = 'W3C Validator'; // http://validator.w3.org/
+    const BROWSER_SLURP = 'Yahoo-Slurp'; // http://en.wikipedia.org/wiki/Yahoo!_Slurp
+    const BROWSER_W3CVALIDATOR = 'W3C-Validator'; // http://validator.w3.org/
     const BROWSER_BLACKBERRY = 'BlackBerry'; // http://www.blackberry.com/
     const BROWSER_ICECAT = 'IceCat'; // http://en.wikipedia.org/wiki/GNU_IceCat
     const BROWSER_NOKIA_S60 = 'Nokia S60 OSS Browser'; // http://en.wikipedia.org/wiki/Web_Browser_for_S60
-    const BROWSER_NOKIA = 'Nokia Browser'; // * all other WAP-based browsers on the Nokia Platform
-    const BROWSER_MSN = 'MSN Browser'; // http://explorer.msn.com/
-    const BROWSER_MSNBOT = 'MSN Bot'; // http://search.msn.com/msnbot.htm
-    const BROWSER_BINGBOT = 'Bing Bot'; // http://en.wikipedia.org/wiki/Bingbot
+    const BROWSER_NOKIA = 'Nokia-Browser'; // * all other WAP-based browsers on the Nokia Platform
+    const BROWSER_MSN = 'MSN-Browser'; // http://explorer.msn.com/
+    const BROWSER_MSNBOT = 'MSN-Bot'; // http://search.msn.com/msnbot.htm
+    const BROWSER_BINGBOT = 'Bing-Bot'; // http://en.wikipedia.org/wiki/Bingbot
 
-    const BROWSER_NETSCAPE_NAVIGATOR = 'Netscape Navigator'; // http://browser.netscape.com/ (DEPRECATED)
+    const BROWSER_NETSCAPE_NAVIGATOR = 'Netscape-Navigator'; // http://browser.netscape.com/ (DEPRECATED)
     const BROWSER_GALEON = 'Galeon'; // http://galeon.sourceforge.net/ (DEPRECATED)
     const BROWSER_NETPOSITIVE = 'NetPositive'; // http://en.wikipedia.org/wiki/NetPositive (DEPRECATED)
     const BROWSER_PHOENIX = 'Phoenix'; // http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox (DEPRECATED)
@@ -111,7 +111,7 @@ class Browser
 
     const OPERATING_SYSTEM_UNKNOWN = 'unknown';
 
-    public function Browser($userAgent = "")
+    public function Browser_KADS($userAgent = "")
     {
         $this->reset();
         if ($userAgent != "") {
