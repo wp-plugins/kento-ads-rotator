@@ -2,7 +2,7 @@
 /*
 Plugin Name: Kento Ads Rotator
 Plugin URI: http://kentothemes.com
-Description: Kento Pricing Table is pure CSS3 and HTML pricing table packs. Easy to use just input data to table filed and used via shortcodes.
+Description: unlimited ads rotator, ads rotator, Ad Rotate, Ad Rotator, banner ads rotator, ads rotator wordpress, swf banner ads, flash banner Rotator
 Version: 1.2
 Author: KentoThemes
 Author URI: http://kentothemes.com
