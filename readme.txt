@@ -1,5 +1,5 @@
 === Kento Ads Rotator ===
-Contributors: hasanrang05
+Contributors: kentothemes
 Donate link: 
 Tags:  unlimited ads rotator, ads rotator, Ad Rotate, Ad Rotator, banner ads rotator, ads rotator wordpress, swf banner ads, flash banner Rotator
 
