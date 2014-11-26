@@ -3,7 +3,7 @@
 Plugin Name: Kento Ads Rotator
 Plugin URI: http://kentothemes.com
 Description: unlimited ads rotator, ads rotator, Ad Rotate, Ad Rotator, banner ads rotator, ads rotator wordpress, swf banner ads, flash banner Rotator
-Version: 1.2
+Version: 1.3
 Author: KentoThemes
 Author URI: http://kentothemes.com
 License: GPLv2 or later
@@ -25,15 +25,6 @@ add_action("init","kads_init_script");
 
 
 
-function demo($mimes) {
-	if ( function_exists( 'current_user_can' ) )
-		$unfiltered = $user ? user_can( $user, 'unfiltered_html' ) : current_user_can( 'unfiltered_html' );
-	if ( !empty( $unfiltered ) ) {
-		$mimes['swf'] = 'application/x-shockwave-flash';
-	}
-	return $mimes;
-}
-add_filter('upload_mimes','demo');
 
 
 

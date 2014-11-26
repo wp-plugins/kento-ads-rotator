@@ -81,6 +81,10 @@ for group banners will randomize for each page refresh.
 
 == Changelog ==
 
+= 1.3 =
+* Pop-up block issue fixed
+
+
 = 1.2 =
 * Add SWF banners.
 * Paginate event stats.
